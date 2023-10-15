@@ -23,4 +23,12 @@ public record Expense
         Categories = categories;
         ExpenseDate = expenseDate;
     }
+
+    public void Update(Expense from)
+    {
+        Name = from.Name;
+        Value = from.Value;
+        Categories = from.Categories;
+        ExpenseDate = from.ExpenseDate;
+    }
 }

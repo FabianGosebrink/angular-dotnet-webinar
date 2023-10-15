@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+// Tell OpenAPI how to handle DateOnly
 builder.Services.AddSwaggerGen(options => options.MapType<DateOnly>(() => new OpenApiSchema()
 {
     Type = "string",
@@ -29,7 +31,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-;
 
 app.RegisterExpenseEndpoints();
 
