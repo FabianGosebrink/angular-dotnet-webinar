@@ -2,7 +2,7 @@ using System.Net;
 
 namespace ExpenseTracker.Infrastructure;
 
-/***
+/**
  * Browser           Middleware           Service
    |                 |                  |
    |---Request------>|                  |

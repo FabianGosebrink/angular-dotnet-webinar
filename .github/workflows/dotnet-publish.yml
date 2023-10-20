@@ -1,0 +1,34 @@
+name: Backend Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: |
+          8.0.x
+
+    - name: Build and publish
+      run: |
+        dotnet restore
+        dotnet build --configuration Release
+        dotnet publish -c Release -o out
+
+    - name: Deploy to Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ExpenseTracker-Backend
+        publish-profile: ${{ secrets.AZURE_BACKEND_PUBLISH_PROFILE }}
+        package: ./out/
+

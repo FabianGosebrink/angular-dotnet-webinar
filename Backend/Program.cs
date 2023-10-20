@@ -4,6 +4,32 @@ using Microsoft.OpenApi.Models;
 using ExpenseTracker.Controller;
 using ExpenseTracker.Infrastructure;
 
+/*
+ * +-------+         +---------+          +-------------+          +-------+
+   | User  |         | Angular |          | ASP.NET Core|          |SQLite |
+   |       |         | Frontend|          | Backend     |          |DB     |
+   +-------+         +---------+          +-------------+          +-------+
+   |                 |                      |                      |
+   |1.Enter Expense  |                      |                      |
+   |---------------->|                      |                      |
+   |                 |                      |                      |
+   |                 |2. HTTP POST Request  |                      |
+   |                 |--------------------->|                      |
+   |                 |                      |                      |
+   |                 |                      |3. Save Expense via   |
+   |                 |                      |   Entity Framework   |
+   |                 |                      |--------------------->|
+   |                 |                      |                      |
+   |                 |                      |    4. Expense Saved  |
+   |                 |                      |<---------------------|
+   |                 |                      |                      |
+   |                 |   5. HTTP 200 OK     |                      |
+   |                 |<---------------------|                      |
+   |                 |                      |                      |
+   |6. Confirmation  |                      |                      |
+   |<----------------|                      |                      |
+   |                 |                      |                      |
+ */
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
