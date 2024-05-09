@@ -1,12 +1,11 @@
 using ExpenseTracker;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using ExpenseTracker.Controller;
 using ExpenseTracker.Infrastructure;
 
 /*
  * +-------+         +---------+          +-------------+          +-------+
-   | User  |         | Angular |          | ASP.NET Core|          |SQLite |
+   | User  |         | Blazor  |          | ASP.NET Core|          |SQLite |
    |       |         | Frontend|          | Backend     |          |DB     |
    +-------+         +---------+          +-------------+          +-------+
    |                 |                      |                      |
@@ -35,19 +34,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
-// Tell OpenAPI how to handle DateOnly
-builder.Services.AddSwaggerGen(options => options.MapType<DateOnly>(() => new OpenApiSchema()
-{
-    Type = "string",
-    Format = "date"
-}));
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddSignalR();
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
     optionsBuilder.UseSqlite("Data Source=app.db");
 });
+
+builder.Services.AddExceptionHandler<ExceptionHandler>();
 
 var app = builder.Build();
 
@@ -60,8 +55,9 @@ if (app.Environment.IsDevelopment())
 
 app.RegisterExpenseEndpoints();
 
+app.UseExceptionHandler(_ => { });
+
 // Add our middleware
-app.UseGlobalExceptionHandling();
 app.UseUnitOfWorkMiddleware();
 
 app.UseHttpsRedirection();

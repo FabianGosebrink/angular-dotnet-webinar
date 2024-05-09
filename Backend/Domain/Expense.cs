@@ -8,7 +8,7 @@ public record Expense
 
     public decimal Value { get; private set; }
 
-    public string[] Categories { get; private set; } = Array.Empty<string>();
+    public string[] Categories { get; private set; } = [];
 
     public DateOnly ExpenseDate { get; private set; }
 
