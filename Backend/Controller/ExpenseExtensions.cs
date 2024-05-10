@@ -11,7 +11,18 @@ public static class ExpenseExtensions
     {
         var group = endpoint.MapGroup("/api/expenses");
         
-        group.MapGet("/", async (AppDbContext dbContext) => await dbContext.Expenses.AsNoTracking().ToListAsync())
+        group.MapGet("/", async (AppDbContext dbContext, int? page, int? pageSize) =>
+            {
+                page ??= 0;
+                pageSize ??= int.MaxValue;
+                return await dbContext
+                    .Expenses
+                    .OrderBy(b => b.Id)
+                    .Skip(page.Value)
+                    .Take(pageSize.Value)
+                    .AsNoTracking()
+                    .ToListAsync();
+            })
             .WithDescription("Retrieves all expenses.");
         
         group.MapGet("/{category}", async (string category, AppDbContext dbContext) =>
@@ -30,17 +41,18 @@ public static class ExpenseExtensions
                 .ToListAsync();
         });
         
-        group.MapPost("/create", async (AppDbContext dbContext, CreateExpenseDto createExpenseDto, IHubContext<ExpenseHub> hub) =>
+        group.MapPost("/", async (AppDbContext dbContext, CreateExpenseDto createExpenseDto, IHubContext<ExpenseHub> hub) =>
         {
             var expense = new Expense(
                 createExpenseDto.Name,
                 createExpenseDto.Value,
                 createExpenseDto.Categories,
-                createExpenseDto.Date);
+                createExpenseDto.ExpenseDate);
             
             await dbContext.Expenses.AddAsync(expense);
-            
-            await NotifyWhenExpenseLimitReached(dbContext, createExpenseDto.Date, hub);
+            await dbContext.SaveChangesAsync();
+            await NotifyUpdate(hub);
+            await NotifyWhenExpenseLimitReached(dbContext, createExpenseDto.ExpenseDate, hub);
         });
 
         group.MapGet("/get-total-expense", async (AppDbContext dbContext) =>
@@ -56,14 +68,17 @@ public static class ExpenseExtensions
                 .SumAsync(e => e.Value);
         });
         
-        group.MapDelete("/delete/{id}", async (int id, AppDbContext dbContext) =>
+        group.MapDelete("/{id}", async (int id, AppDbContext dbContext, IHubContext<ExpenseHub> hub) =>
         {
             var expense = await dbContext.Expenses.FindAsync(id)
                 ?? throw new InvalidOperationException($"Can't find expense with id {id}");
             dbContext.Expenses.Remove(expense);
+            await dbContext.SaveChangesAsync();
+            
+            await NotifyUpdate(hub);
         });
 
-        group.MapPut("/update", async (UpdateExpenseDto dto, AppDbContext dbContext, IHubContext<ExpenseHub> hub) =>
+        group.MapPut("/{id}", async (int id, UpdateExpenseDto dto, AppDbContext dbContext, IHubContext<ExpenseHub> hub) =>
         {
             var update = new Expense(
                 dto.Name,
@@ -71,14 +86,21 @@ public static class ExpenseExtensions
                 dto.Categories,
                 dto.Date);
             
-            var expense = await dbContext.Expenses.FindAsync(dto.Id) 
+            var expense = await dbContext.Expenses.FindAsync(id) 
                           ?? throw new InvalidOperationException($"Can't find expense with id {dto.Id}");
             
             expense.Update(update);
+            await dbContext.SaveChangesAsync();
+            await NotifyUpdate(hub);
             await NotifyWhenExpenseLimitReached(dbContext, dto.Date, hub);
         });
 
         group.WithOpenApi();
+    }
+
+    private static async Task NotifyUpdate(IHubContext<ExpenseHub> hub)
+    {
+        await hub.Clients.All.SendAsync("update");
     }
 
     private static async Task NotifyWhenExpenseLimitReached(
@@ -87,9 +109,12 @@ public static class ExpenseExtensions
         IHubContext<ExpenseHub> hub)
     {
         // Get total expenses for the month and notify the user if it exceeds the budget
-        var totalExpense = await dbContext.Expenses
+        var allValues = await dbContext.Expenses
             .Where(e => e.ExpenseDate.Year == expenseDate.Year && e.ExpenseDate.Month == expenseDate.Month)
-            .SumAsync(e => e.Value);
+            .Select(e => e.Value)
+            .ToListAsync();
+            
+        var totalExpense = allValues.Sum();
 
         if (totalExpense > 5000)
         {
@@ -97,7 +122,7 @@ public static class ExpenseExtensions
         }
     }
 
-    private record CreateExpenseDto(string Name, decimal Value, string[] Categories, DateOnly Date);
+    private record CreateExpenseDto(string Name, decimal Value, string[] Categories, DateOnly ExpenseDate);
 
     private record UpdateExpenseDto(int Id, string Name, decimal Value, string[] Categories, DateOnly Date);
 }
