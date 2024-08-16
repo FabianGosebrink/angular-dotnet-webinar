@@ -6,13 +6,13 @@ public record Expense
 
     public string Name { get; private set; }
 
-    public decimal Value { get; private set; }
+    public double Value { get; private set; }
 
     public string[] Categories { get; private set; } = [];
 
     public DateOnly ExpenseDate { get; private set; }
 
-    public Expense(string name, decimal value, string[] categories, DateOnly expenseDate)
+    public Expense(string name, double value, string[] categories, DateOnly expenseDate)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentOutOfRangeException.ThrowIfNegative(value);

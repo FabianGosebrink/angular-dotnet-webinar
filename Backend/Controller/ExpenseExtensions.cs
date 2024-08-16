@@ -61,6 +61,15 @@ public static class ExpenseExtensions
                 .SumAsync(e => e.Value);
         });
 
+        group.MapGet("/get-all-months", async (AppDbContext dbContext) =>
+        {
+            return await dbContext.Expenses
+                .GroupBy(s => new {s.ExpenseDate.Year, s.ExpenseDate.Month})
+                .Select(s => new { Year = s.Key.Year, Month = s.Key.Month, Sum = s.Sum(e => e.Value) })
+                .ToArrayAsync();
+        })
+        .WithDescription("Retrieves all months with the total expenses.");
+
         group.MapGet("get-total-expense/{year}/{month}", async (int year, int month, AppDbContext dbContext) =>
         {
             return await dbContext.Expenses
@@ -122,7 +131,7 @@ public static class ExpenseExtensions
         }
     }
 
-    private record CreateExpenseDto(string Name, decimal Value, string[] Categories, DateOnly ExpenseDate);
+    private record CreateExpenseDto(string Name, double Value, string[] Categories, DateOnly ExpenseDate);
 
-    private record UpdateExpenseDto(int Id, string Name, decimal Value, string[] Categories, DateOnly Date);
+    private record UpdateExpenseDto(int Id, string Name, double Value, string[] Categories, DateOnly Date);
 }
