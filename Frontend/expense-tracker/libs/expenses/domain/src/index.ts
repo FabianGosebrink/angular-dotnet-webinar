@@ -1,1 +1,1 @@
-export * from './lib/expenses-domain/expenses-domain.component';
+export * from './lib/models/expense';

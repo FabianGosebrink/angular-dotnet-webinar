@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExpensesFormComponent } from '@expense-tracker/expenses/ui';
+import { Expense } from '@expense-tracker/expenses/domain';
 
 @Component({
   selector: 'lib-main-expenses',
@@ -10,7 +11,7 @@ import { ExpensesFormComponent } from '@expense-tracker/expenses/ui';
   styleUrl: './main-expenses.component.scss',
 })
 export class MainExpensesComponent {
-  formSubmitted({ title, expenseDate }: { title: string; expenseDate: Date }) {
-    console.log(title, expenseDate);
+  formSubmitted(expense: Expense): void {
+    console.log(expense);
   }
 }

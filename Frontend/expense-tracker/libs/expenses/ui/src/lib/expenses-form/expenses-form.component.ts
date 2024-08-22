@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Expense } from '@expense-tracker/expenses/domain';
 
 @Component({
   selector: 'lib-expenses-form',
@@ -14,17 +15,19 @@ import {
   styleUrl: './expenses-form.component.scss',
 })
 export class ExpensesFormComponent {
-  formSubmitted = output<{ title: string; expenseDate: Date }>();
+  formSubmitted = output<Expense>();
 
   form = new FormGroup({
     title: new FormControl('', Validators.required),
+    value: new FormControl(0, Validators.required),
     date: new FormControl('', Validators.required),
   });
 
   submitForm() {
-    const { title, date } = this.form.value;
+    const { title, date, value } = this.form.value;
     const toSend = {
       title: title as string,
+      value: value as number,
       expenseDate: new Date(date as string),
     };
 

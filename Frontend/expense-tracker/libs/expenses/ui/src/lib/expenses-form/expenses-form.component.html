@@ -1,10 +1,15 @@
 <form (ngSubmit)="submitForm()" [formGroup]="form" class="row gy-2 gx-3 align-items-center">
   <div class="row g-3">
     <div class="col-sm">
-      <input aria-label="State" class="form-control" formControlName="date" placeholder="Date" type="date">
+      <input aria-label="Date" class="form-control" formControlName="date" placeholder="Date" type="date">
     </div>
+    
     <div class="col-sm">
-      <input aria-label="Zip" class="form-control" formControlName="title" placeholder="Groceries, ..." type="text">
+      <input aria-label="Title" class="form-control" formControlName="title" placeholder="Groceries, ..." type="text">
+    </div>
+
+    <div class="col-sm">
+      <input aria-label="Value" class="form-control" formControlName="value" placeholder="7.50" type="number">
     </div>
   </div>
 
