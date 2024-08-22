@@ -1,1 +1,1 @@
-export * from './lib/expenses-ui/expenses-ui.component';
+export * from './lib/expenses-form/expenses-form.component';
