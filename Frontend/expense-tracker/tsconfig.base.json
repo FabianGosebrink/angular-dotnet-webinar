@@ -14,7 +14,16 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@expense-tracker/expenses/domain": ["libs/expenses/domain/src/index.ts"],
+      "@expense-tracker/expenses/feature": [
+        "libs/expenses/feature/src/index.ts"
+      ],
+      "@expense-tracker/expenses/ui": ["libs/expenses/ui/src/index.ts"],
+      "@expense-tracker/shared/ui-common": [
+        "libs/shared/ui-common/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
