@@ -16,6 +16,16 @@ export class ExpensesApiService {
     );
   }
 
+  getExpensesForCurrentMonth(): Observable<Expense[]> {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+
+    return this.http.get<Expense[]>(
+      `${environment.server}api/expenses/${year}/${month}`
+    );
+  }
+
   getAllExpenses(): Observable<Expense[]> {
     return this.http.get<Expense[]>(`${environment.server}api/expenses/`);
   }

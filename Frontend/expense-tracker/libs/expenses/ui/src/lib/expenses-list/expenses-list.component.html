@@ -1,22 +1,21 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th scope="col">#</th>
     <th scope="col">Title</th>
     <th scope="col">Value</th>
-    <th scope="col">Diff</th>
+    <th scope="col">Date</th>
   </tr>
   </thead>
   <tbody>
-  <tr>
-    <th>1</th>
-    <td>Mark</td>
-    <td>Otto</td>
-    <td>85%</td>
-  </tr>
-
+    @for (expense of expenses(); track expense.id) {
+      <tr>
+        <td>{{ expense.name }}</td>
+        <td>{{ expense.value }}</td>
+        <td>{{ expense.expenseDate }}</td>
+      </tr>
+    }
   </tbody>
 </table>
 
 
-{{ expenses() | json }}
+

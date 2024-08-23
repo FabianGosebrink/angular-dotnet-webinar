@@ -26,7 +26,7 @@ export const initialState: ExpensesState = {
 export const ExpensesStore = signalStore(
   { providedIn: 'root' },
   withState<ExpensesState>(initialState),
-  withComputed((store) => ({
+  withComputed(() => ({
     // getAllIdsOfMyDoggos: computed(() => {
     //   const myDoggos = store.myDoggos();
     //
@@ -82,16 +82,39 @@ export const ExpensesStore = signalStore(
       })
     ),
 
+    loadAllExpensesFromCurrentMonth: rxMethod<void>(
+      switchMap(() => {
+        patchState(store, { loading: true });
+
+        return expensesApiService.getExpensesForCurrentMonth().pipe(
+          tapResponse({
+            next: (expenses: Expense[]) => {
+              patchState(store, { expenses });
+            },
+            error: (error: unknown) => {
+              console.error(error);
+            },
+            finalize: () => patchState(store, { loading: false }),
+          })
+        );
+      })
+    ),
+
     addExpense: rxMethod<Expense>(
       switchMap((expense) => {
         patchState(store, { loading: true });
 
         return expensesApiService.addExpense(expense).pipe(
+          switchMap(() => {
+            const date = new Date(expense.expenseDate);
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            return expensesApiService.getExpensesForMonth(year, month);
+          }),
           tapResponse({
-            next: (expense) => {
-              patchState(store, ({ expenses }) => ({
-                expenses: [...expenses, expense],
-              }));
+            next: (expenseResponse) => {
+              patchState(store, { expenses: expenseResponse });
             },
             error: (error: unknown) => {
               console.error(error);
@@ -103,8 +126,10 @@ export const ExpensesStore = signalStore(
     ),
   })),
   withHooks({
-    onInit() {
+    onInit(store) {
       console.log('state is there');
+
+      store.loadAllExpensesFromCurrentMonth();
     },
   })
 );
