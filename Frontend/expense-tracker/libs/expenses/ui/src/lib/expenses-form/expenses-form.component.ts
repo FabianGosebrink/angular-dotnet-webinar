@@ -26,10 +26,10 @@ export class ExpensesFormComponent {
   submitForm() {
     const { title, date, value } = this.form.value;
     const toSend = {
-      title: title as string,
+      name: title as string,
       value: value as number,
-      expenseDate: new Date(date as string),
-    };
+      expenseDate: date,
+    } as Expense;
 
     this.formSubmitted.emit(toSend);
   }

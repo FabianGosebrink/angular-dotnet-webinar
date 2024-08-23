@@ -8,12 +8,16 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/expense-tracker",
         "index": "apps/expense-tracker/src/index.html",
         "browser": "apps/expense-tracker/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/expense-tracker/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -22,7 +26,9 @@
             "input": "apps/expense-tracker/public"
           }
         ],
-        "styles": ["apps/expense-tracker/src/styles.scss"],
+        "styles": [
+          "apps/expense-tracker/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -37,6 +43,12 @@
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
               "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "libs/shared/util-environments/src/lib/environment.ts",
+              "with": "libs/shared/util-environments/src/lib/environment.prod.ts"
             }
           ],
           "outputHashing": "all"
@@ -72,7 +84,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/expense-tracker/jest.config.ts"
       }

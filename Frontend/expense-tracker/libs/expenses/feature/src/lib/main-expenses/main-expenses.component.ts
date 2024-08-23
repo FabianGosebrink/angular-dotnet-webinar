@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ExpensesFormComponent,
   ExpensesListComponent,
 } from '@expense-tracker/expenses/ui';
-import { Expense } from '@expense-tracker/expenses/domain';
+import { Expense, ExpensesStore } from '@expense-tracker/expenses/domain';
 
 @Component({
   selector: 'lib-main-expenses',
@@ -14,7 +14,11 @@ import { Expense } from '@expense-tracker/expenses/domain';
   styleUrl: './main-expenses.component.scss',
 })
 export class MainExpensesComponent {
+  expensesStore = inject(ExpensesStore);
+
   formSubmitted(expense: Expense): void {
     console.log(expense);
+
+    this.expensesStore.addExpense(expense);
   }
 }
