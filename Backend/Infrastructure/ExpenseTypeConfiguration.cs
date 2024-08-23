@@ -26,6 +26,7 @@ public class ExpenseTypeConfiguration : IEntityTypeConfiguration<Expense>
 
     private static IEnumerable<Expense> GenerateSeedData()
     {
+        var index = 1;
         for (var year = 2023; year <= 2024; year++)
         {
             for (var month = 1; month <= 12; month++)
@@ -43,7 +44,10 @@ public class ExpenseTypeConfiguration : IEntityTypeConfiguration<Expense>
                         value: Math.Round(Random.Shared.NextDouble() * 1000 + 1, 2),
                         categories: GenerateRandomCategories(),
                         expenseDate: expenseDate
-                    );
+                    )
+                    {
+                        Id = index++
+                    };
 
                     yield return expense;
                 }

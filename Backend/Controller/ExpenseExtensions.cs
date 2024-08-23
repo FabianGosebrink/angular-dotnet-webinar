@@ -66,7 +66,7 @@ public static class ExpenseExtensions
         {
             return await dbContext.Expenses
                 .GroupBy(s => new {s.ExpenseDate.Year, s.ExpenseDate.Month})
-                .Select(s => new { Year = s.Key.Year, Month = s.Key.Month, Sum = s.Sum(e => e.Value) })
+                .Select(s => new GetAllMonthsDto(s.Key.Year, s.Key.Month, s.Sum(e => e.Value)))
                 .ToArrayAsync();
         })
         .WithDescription("Retrieves all months with the total expenses.");
@@ -132,7 +132,10 @@ public static class ExpenseExtensions
         }
     }
 
+    
     private record CreateExpenseDto(string Name, double Value, string[] Categories, DateOnly ExpenseDate);
 
     private record UpdateExpenseDto(int Id, string Name, double Value, string[] Categories, DateOnly Date);
+    
+    private record GetAllMonthsDto(int Year, int Month, double Sum);
 }
