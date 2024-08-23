@@ -53,6 +53,7 @@ public static class ExpenseExtensions
             await dbContext.SaveChangesAsync();
             await NotifyUpdate(hub);
             await NotifyWhenExpenseLimitReached(dbContext, createExpenseDto.ExpenseDate, hub);
+            return expense;
         });
 
         group.MapGet("/get-total-expense", async (AppDbContext dbContext) =>
