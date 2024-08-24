@@ -10,8 +10,8 @@
     @for (expense of expenses(); track expense.id) {
       <tr>
         <td>{{ expense.name }}</td>
-        <td>{{ expense.value }}</td>
-        <td>{{ expense.expenseDate }}</td>
+        <td>{{ expense.value | currency }}</td>
+        <td>{{ expense.expenseDate | date: 'EEEE, dd. MMMM yyyy' }}</td>
       </tr>
     }
   </tbody>

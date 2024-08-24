@@ -20,6 +20,7 @@
         "libs/expenses/feature/src/index.ts"
       ],
       "@expense-tracker/expenses/ui": ["libs/expenses/ui/src/index.ts"],
+      "@expense-tracker/expenses/utils": ["libs/expenses/utils/src/index.ts"],
       "@expense-tracker/shared/ui-common": [
         "libs/shared/ui-common/src/index.ts"
       ],

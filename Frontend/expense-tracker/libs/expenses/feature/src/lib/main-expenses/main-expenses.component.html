@@ -1,3 +1,5 @@
 <lib-expenses-form (formSubmitted)="formSubmitted($event)" />
 
+<h2 class="my-4">{{ date()  | date: 'MMMM yyyy' }}</h2>
+
 <lib-expenses-list [expenses]="expensesStore.expenses()" />

@@ -13,18 +13,15 @@
           <li class="nav-item">
             <a aria-current="page" class="nav-link active" routerLink="/expenses">Expenses</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a aria-disabled="true" class="nav-link disabled">Disabled</a>
-          </li>
+
           <li class="nav-item dropdown">
-            <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Dropdown</a>
+            <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">All Months</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              @for (monthlyExpense of monthlyExpenses(); track $index) {
+                <li><a class="dropdown-item"
+                       [routerLink]="['expenses', monthlyExpense.year, monthlyExpense.month]">{{ monthlyExpense | yearMonth }}</a>
+                </li>
+              }
             </ul>
           </li>
         </ul>

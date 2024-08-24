@@ -10,16 +10,18 @@ import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
-import { Expense } from '../models/expense';
+import { ExpensesModel, MonthlyExpense } from '../models/expenses.models';
 import { ExpensesApiService } from '../services/expenses-api.service';
 
 export interface ExpensesState {
-  expenses: Expense[];
+  expenses: ExpensesModel[];
+  overviewMonthlyExpenses: MonthlyExpense[];
   loading: boolean;
 }
 
 export const initialState: ExpensesState = {
   expenses: [],
+  overviewMonthlyExpenses: [],
   loading: false,
 };
 
@@ -70,7 +72,7 @@ export const ExpensesStore = signalStore(
 
         return expensesApiService.getAllExpenses().pipe(
           tapResponse({
-            next: (expenses: Expense[]) => {
+            next: (expenses: ExpensesModel[]) => {
               patchState(store, { expenses });
             },
             error: (error: unknown) => {
@@ -82,14 +84,32 @@ export const ExpensesStore = signalStore(
       })
     ),
 
-    loadAllExpensesFromCurrentMonth: rxMethod<void>(
+    loadAllExpensesByYearAndMonth: rxMethod<{ year?: number; month?: number }>(
+      switchMap(({ year, month }) => {
+        patchState(store, { loading: true });
+
+        return expensesApiService.getExpensesForMonth(year, month).pipe(
+          tapResponse({
+            next: (expenses: ExpensesModel[]) => {
+              patchState(store, { expenses });
+            },
+            error: (error: unknown) => {
+              console.error(error);
+            },
+            finalize: () => patchState(store, { loading: false }),
+          })
+        );
+      })
+    ),
+
+    loadAllExpensesPerMonth: rxMethod<void>(
       switchMap(() => {
         patchState(store, { loading: true });
 
-        return expensesApiService.getExpensesForCurrentMonth().pipe(
+        return expensesApiService.getAllMonths().pipe(
           tapResponse({
-            next: (expenses: Expense[]) => {
-              patchState(store, { expenses });
+            next: (overviewMonthlyExpenses: MonthlyExpense[]) => {
+              patchState(store, { overviewMonthlyExpenses });
             },
             error: (error: unknown) => {
               console.error(error);
@@ -100,21 +120,16 @@ export const ExpensesStore = signalStore(
       })
     ),
 
-    addExpense: rxMethod<Expense>(
+    addExpense: rxMethod<ExpensesModel>(
       switchMap((expense) => {
         patchState(store, { loading: true });
 
         return expensesApiService.addExpense(expense).pipe(
-          switchMap(() => {
-            const date = new Date(expense.expenseDate);
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
-
-            return expensesApiService.getExpensesForMonth(year, month);
-          }),
           tapResponse({
             next: (expenseResponse) => {
-              patchState(store, { expenses: expenseResponse });
+              patchState(store, {
+                expenses: [...store.expenses(), expenseResponse],
+              });
             },
             error: (error: unknown) => {
               console.error(error);
@@ -128,8 +143,6 @@ export const ExpensesStore = signalStore(
   withHooks({
     onInit(store) {
       console.log('state is there');
-
-      store.loadAllExpensesFromCurrentMonth();
     },
   })
 );
