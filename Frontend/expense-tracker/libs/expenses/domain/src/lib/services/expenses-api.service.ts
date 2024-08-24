@@ -41,4 +41,12 @@ export class ExpensesApiService {
       expense
     );
   }
+
+  deleteExpense(expense: ExpensesModel): Observable<void> {
+    expense.categories = expense.categories || [];
+
+    return this.http.delete<void>(
+      `${environment.server}api/expenses/${expense.id}`
+    );
+  }
 }

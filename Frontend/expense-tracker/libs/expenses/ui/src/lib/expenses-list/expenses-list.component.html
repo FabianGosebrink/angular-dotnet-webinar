@@ -4,6 +4,7 @@
     <th scope="col">Title</th>
     <th scope="col">Value</th>
     <th scope="col">Date</th>
+    <th scope="col"></th>
   </tr>
   </thead>
   <tbody>
@@ -12,6 +13,12 @@
         <td>{{ expense.name }}</td>
         <td>{{ expense.value | currency }}</td>
         <td>{{ expense.expenseDate | date: 'EEEE, dd. MMMM yyyy' }}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="deleteExpense(expense)">
+            <i class="bi bi-trash"></i>
+            Delete
+          </button>
+        </td>
       </tr>
     }
   </tbody>

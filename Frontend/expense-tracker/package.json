@@ -17,6 +17,7 @@
     "@angular/router": "~18.2.0",
     "@ngrx/operators": "^18.0.2",
     "@ngrx/signals": "^18.0.2",
+    "bootstrap-icons": "^1.11.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

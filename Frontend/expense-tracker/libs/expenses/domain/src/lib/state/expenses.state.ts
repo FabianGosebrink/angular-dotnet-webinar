@@ -139,6 +139,31 @@ export const ExpensesStore = signalStore(
         );
       })
     ),
+
+    deleteExpense: rxMethod<ExpensesModel>(
+      switchMap((expenseToDelete) => {
+        patchState(store, { loading: true });
+
+        return expensesApiService.deleteExpense(expenseToDelete).pipe(
+          tapResponse({
+            next: () => {
+              const currentExpenses = store.expenses();
+              const expenses = currentExpenses.filter(
+                (expense) => expense.id !== expenseToDelete.id
+              );
+
+              patchState(store, {
+                expenses: [...expenses],
+              });
+            },
+            error: (error: unknown) => {
+              console.error(error);
+            },
+            finalize: () => patchState(store, { loading: false }),
+          })
+        );
+      })
+    ),
   })),
   withHooks({
     onInit(store) {

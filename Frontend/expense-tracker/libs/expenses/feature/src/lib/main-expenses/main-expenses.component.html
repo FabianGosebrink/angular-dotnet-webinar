@@ -2,4 +2,5 @@
 
 <h2 class="my-4">{{ date()  | date: 'MMMM yyyy' }}</h2>
 
-<lib-expenses-list [expenses]="expensesStore.expenses()" />
+<lib-expenses-list (expenseDeleted)="expenseDeleted($event)" [expenses]="expensesStore.expenses()" />
+

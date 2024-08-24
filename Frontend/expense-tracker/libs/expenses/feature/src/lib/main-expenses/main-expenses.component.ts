@@ -30,4 +30,8 @@ export class MainExpensesComponent implements OnInit {
   formSubmitted(expense: ExpensesModel): void {
     this.expensesStore.addExpense(expense);
   }
+
+  expenseDeleted(expense: ExpensesModel) {
+    this.expensesStore.deleteExpense(expense);
+  }
 }

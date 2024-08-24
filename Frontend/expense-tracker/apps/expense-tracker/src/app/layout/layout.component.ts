@@ -16,7 +16,7 @@ import { ExpensesStore } from '@expense-tracker/expenses/domain';
 export class LayoutComponent implements OnInit {
   expensesStore = inject(ExpensesStore);
 
-  title = 'expense-tracker';
+  title = 'Expense Tracker';
 
   ngOnInit() {
     this.expensesStore.loadAllExpensesPerMonth();
