@@ -1,7 +1,7 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th scope="col">Title</th>
+    <th scope="col">Name</th>
     <th scope="col">Value</th>
     <th scope="col">Date</th>
     <th scope="col"></th>
@@ -10,7 +10,7 @@
   <tbody>
     @for (expense of expenses(); track expense.id) {
       <tr>
-        <td>{{ expense.expenseDate }}</td>
+        <td>{{ expense.name }}</td>
         <td>{{ expense.value | currency }}</td>
         <td>{{ expense.expenseDate | date: 'EEEE, dd. MMMM yyyy' }}</td>
         <td>

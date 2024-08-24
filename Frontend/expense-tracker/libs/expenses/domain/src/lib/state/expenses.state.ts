@@ -32,6 +32,14 @@ export const ExpensesStore = signalStore(
     getSumForMonth: computed(() => {
       return store.expenses().reduce((a, b) => a + b.value, 0);
     }),
+    expensesOrderedByDate: computed(() => {
+      return store.expenses().sort((a, b) => {
+        const dateA = new Date(a.expenseDate);
+        const dateB = new Date(b.expenseDate);
+
+        return dateA.getTime() - dateB.getTime();
+      });
+    }),
     // getSelectedDoggoIndex: computed(() => {
     //   return store
     //     .doggos()

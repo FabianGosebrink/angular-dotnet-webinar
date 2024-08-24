@@ -26,12 +26,11 @@ export class ExpensesChartDirective {
     this.destroyChart();
     this.createChart(this.monthlyExpenses());
   });
-  //
+
   // ngOnInit(): void {
   //   // const monthNames = Array.from({ length: 12 }, (item, i) => {
   //   //   return new Date(0, i).toLocaleString(this.localeId, { month: 'long' });
   //   // });
-  //
   // }
 
   private destroyChart() {
