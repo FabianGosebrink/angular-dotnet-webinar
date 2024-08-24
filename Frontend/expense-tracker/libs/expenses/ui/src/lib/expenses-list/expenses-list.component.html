@@ -10,7 +10,7 @@
   <tbody>
     @for (expense of expenses(); track expense.id) {
       <tr>
-        <td>{{ expense.name }}</td>
+        <td>{{ expense.expenseDate }}</td>
         <td>{{ expense.value | currency }}</td>
         <td>{{ expense.expenseDate | date: 'EEEE, dd. MMMM yyyy' }}</td>
         <td>
@@ -24,5 +24,10 @@
   </tbody>
 </table>
 
+@if (expenses().length > 0) {
+  <div>
+    <canvas libExpensesChart [monthlyExpenses]="expenses()" id="myChart"></canvas>
+  </div>
+}
 
 
