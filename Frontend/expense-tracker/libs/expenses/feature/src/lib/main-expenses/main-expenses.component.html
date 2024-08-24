@@ -1,5 +1,6 @@
 <lib-expenses-form (formSubmitted)="formSubmitted($event)" />
 
+<hr class="my-4" />
 <h2 class="my-4">{{ date()  | date: 'MMMM yyyy' }} - {{ expensesStore.getSumForMonth() | currency }}</h2>
 
 <lib-expenses-list (expenseDeleted)="expenseDeleted($event)" [expenses]="expensesStore.expensesOrderedByDate()" />
