@@ -1,10 +1,10 @@
 import {
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
   LOCALE_ID,
-  OnInit,
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { ExpensesModel } from '@expense-tracker/expenses/domain';
@@ -15,17 +15,33 @@ Chart.register(...registerables);
   selector: '[libExpensesChart]',
   standalone: true,
 })
-export class ExpensesChartDirective implements OnInit {
+export class ExpensesChartDirective {
   monthlyExpenses = input<ExpensesModel[]>([]);
 
   private readonly el = inject(ElementRef);
   private readonly localeId = inject<string>(LOCALE_ID);
+  private chart: Chart | null = null;
 
-  ngOnInit(): void {
-    // const monthNames = Array.from({ length: 12 }, (item, i) => {
-    //   return new Date(0, i).toLocaleString(this.localeId, { month: 'long' });
-    // });
-    const date = new Date(this.monthlyExpenses()[0]?.expenseDate);
+  private updateChart = effect(() => {
+    this.destroyChart();
+    this.createChart(this.monthlyExpenses());
+  });
+  //
+  // ngOnInit(): void {
+  //   // const monthNames = Array.from({ length: 12 }, (item, i) => {
+  //   //   return new Date(0, i).toLocaleString(this.localeId, { month: 'long' });
+  //   // });
+  //
+  // }
+
+  private destroyChart() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+  }
+
+  private createChart(monthlyExpenses: ExpensesModel[]) {
+    const date = new Date(monthlyExpenses[0]?.expenseDate);
     const year = date.getFullYear();
     const month = date.getMonth();
     const daysInMonth = this.daysInMonth(year, month);
@@ -43,7 +59,7 @@ export class ExpensesChartDirective implements OnInit {
   }
 
   private applyChartToElement(daysInMonth: number[], data: number[]): void {
-    new Chart(this.el.nativeElement, {
+    this.chart = new Chart(this.el.nativeElement, {
       type: 'bar',
       data: {
         labels: daysInMonth,
