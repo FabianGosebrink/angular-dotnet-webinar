@@ -6,7 +6,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
@@ -28,16 +28,10 @@ export const initialState: ExpensesState = {
 export const ExpensesStore = signalStore(
   { providedIn: 'root' },
   withState<ExpensesState>(initialState),
-  withComputed(() => ({
-    // getAllIdsOfMyDoggos: computed(() => {
-    //   const myDoggos = store.myDoggos();
-    //
-    //   if (myDoggos.length === 0) {
-    //     return [];
-    //   }
-    //
-    //   return myDoggos.map((x) => x.id);
-    // }),
+  withComputed((store) => ({
+    getSumForMonth: computed(() => {
+      return store.expenses().reduce((a, b) => a + b.value, 0);
+    }),
     // getSelectedDoggoIndex: computed(() => {
     //   return store
     //     .doggos()
@@ -166,7 +160,7 @@ export const ExpensesStore = signalStore(
     ),
   })),
   withHooks({
-    onInit(store) {
+    onInit() {
       console.log('state is there');
     },
   })
