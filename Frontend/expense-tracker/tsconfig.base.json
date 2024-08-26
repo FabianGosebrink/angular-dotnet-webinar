@@ -1,0 +1,36 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@expense-tracker/expenses/domain": ["libs/expenses/domain/src/index.ts"],
+      "@expense-tracker/expenses/feature": [
+        "libs/expenses/feature/src/index.ts"
+      ],
+      "@expense-tracker/expenses/ui": ["libs/expenses/ui/src/index.ts"],
+      "@expense-tracker/expenses/utils": ["libs/expenses/utils/src/index.ts"],
+      "@expense-tracker/shared/ui-common": [
+        "libs/shared/ui-common/src/index.ts"
+      ],
+      "@expense-tracker/shared/util-common": [
+        "libs/shared/util-common/src/index.ts"
+      ],
+      "@expense-tracker/shared/util-environments": [
+        "libs/shared/util-environments/src/index.ts"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

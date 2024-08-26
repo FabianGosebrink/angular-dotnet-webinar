@@ -1,0 +1,19 @@
+<form (ngSubmit)="submitForm()" [formGroup]="form" class="row gy-2 gx-3 align-items-center">
+  <div class="row g-3">
+    <div class="col-sm">
+      <input aria-label="Date" class="form-control" formControlName="date" placeholder="Date" type="date">
+    </div>
+    
+    <div class="col-sm">
+      <input aria-label="Title" class="form-control" formControlName="title" placeholder="Groceries, ..." type="text">
+    </div>
+
+    <div class="col-sm">
+      <input aria-label="Value" class="form-control" formControlName="value" placeholder="7.50" type="number">
+    </div>
+  </div>
+
+  <div class="col-auto">
+    <button [disabled]="!form.valid " class="btn btn-primary" type="submit">Submit</button>
+  </div>
+</form>

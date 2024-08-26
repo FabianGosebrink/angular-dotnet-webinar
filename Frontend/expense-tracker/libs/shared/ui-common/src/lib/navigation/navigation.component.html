@@ -1,0 +1,31 @@
+<div class="container">
+  <nav aria-label="Thirteenth navbar example" class="navbar navbar-expand-lg bg-body-tertiary rounded">
+    <div class="container-fluid">
+      <button aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation"
+              class="navbar-toggler"
+              data-bs-target="#navbarsExample11" data-bs-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
+        <a class="navbar-brand col-lg-3 me-0" href="#">{{ title() }}</a>
+        <ul class="navbar-nav col-lg-6 justify-content-lg-center">
+          <li class="nav-item">
+            <a aria-current="page" class="nav-link active" routerLink="/expenses">Current Month</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">All Months</a>
+            <ul class="dropdown-menu">
+              @for (monthlyExpense of monthlyExpenses(); track $index) {
+                <li><a class="dropdown-item"
+                       [routerLink]="['expenses', monthlyExpense.year, monthlyExpense.month]">{{ monthlyExpense | yearMonth }}</a>
+                </li>
+              }
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

@@ -1,0 +1,33 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Value</th>
+    <th scope="col">Date</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (expense of expenses(); track expense.id) {
+      <tr>
+        <td>{{ expense.name }}</td>
+        <td>{{ expense.value | currency }}</td>
+        <td>{{ expense.expenseDate | date: 'EEEE, dd. MMMM yyyy' }}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="deleteExpense(expense)">
+            <i class="bi bi-trash"></i>
+            Delete
+          </button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+@if (expenses().length > 0) {
+  <div>
+    <canvas libExpensesChart [monthlyExpenses]="expenses()" id="myChart"></canvas>
+  </div>
+}
+
+
