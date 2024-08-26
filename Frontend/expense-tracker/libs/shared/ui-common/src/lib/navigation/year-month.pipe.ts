@@ -1,5 +1,5 @@
 import { inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
-import { MonthlyExpense } from '@expense-tracker/expenses/domain';
+import { MonthlyExpense } from '@expense-tracker/shared/util-common';
 
 @Pipe({
   standalone: true,

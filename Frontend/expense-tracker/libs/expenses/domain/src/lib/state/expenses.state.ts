@@ -10,8 +10,9 @@ import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
-import { ExpensesModel, MonthlyExpense } from '../models/expenses.models';
+import { ExpensesModel } from '../models/expenses.models';
 import { ExpensesApiService } from '../services/expenses-api.service';
+import { MonthlyExpense } from '@expense-tracker/shared/util-common';
 
 export interface ExpensesState {
   expenses: ExpensesModel[];

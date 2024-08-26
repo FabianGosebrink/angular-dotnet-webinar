@@ -1,8 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpService } from '@expense-tracker/shared/util-common';
+import {
+  HttpService,
+  MonthlyExpense,
+} from '@expense-tracker/shared/util-common';
 import { environment } from '@expense-tracker/shared/util-environments';
 import { Observable } from 'rxjs';
-import { ExpensesModel, MonthlyExpense } from '../models/expenses.models';
+import { ExpensesModel } from '../models/expenses.models';
 
 @Injectable({
   providedIn: 'root',

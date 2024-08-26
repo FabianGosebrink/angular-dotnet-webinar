@@ -5,9 +5,3 @@ export interface ExpensesModel {
   categories: string[];
   expenseDate: string;
 }
-
-export interface MonthlyExpense {
-  year: number;
-  month: number;
-  sum: number;
-}
