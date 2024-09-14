@@ -1,11 +1,4 @@
-import {
-  Directive,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  LOCALE_ID,
-} from '@angular/core';
+import { Directive, ElementRef, inject, input, LOCALE_ID } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { ExpensesModel } from '@expense-tracker/expenses/domain';
 
@@ -22,17 +15,6 @@ export class ExpensesChartDirective {
   private readonly localeId = inject<string>(LOCALE_ID);
   private chart: Chart | null = null;
 
-  private updateChart = effect(() => {
-    this.destroyChart();
-    this.createChart(this.monthlyExpenses());
-  });
-
-  // ngOnInit(): void {
-  //   // const monthNames = Array.from({ length: 12 }, (item, i) => {
-  //   //   return new Date(0, i).toLocaleString(this.localeId, { month: 'long' });
-  //   // });
-  // }
-
   private destroyChart() {
     if (this.chart) {
       this.chart.destroy();
@@ -45,6 +27,7 @@ export class ExpensesChartDirective {
     const month = date.getMonth();
     const daysInMonth = this.daysInMonth(year, month);
     const chartData = this.getChartData(daysInMonth);
+
     this.applyChartToElement(daysInMonth, chartData);
   }
 
