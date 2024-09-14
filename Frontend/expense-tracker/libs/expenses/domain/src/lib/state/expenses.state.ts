@@ -41,32 +41,6 @@ export const ExpensesStore = signalStore(
         return dateA.getTime() - dateB.getTime();
       });
     }),
-    // getSelectedDoggoIndex: computed(() => {
-    //   return store
-    //     .doggos()
-    //     .findIndex((doggo) => doggo.id === store.selectedDoggo().id);
-    // }),
-    // getNextDoggoIndex: computed(() => {
-    //   const currentDoggoIndex = store
-    //     .doggos()
-    //     .findIndex((doggo) => doggo.id === store.selectedDoggo().id);
-    //
-    //   return (currentDoggoIndex + 1) % store.doggos().length;
-    // }),
-    // getAllDoggosButSelected: computed(() => {
-    //   if (store.doggos().length === 0) {
-    //     return [];
-    //   }
-    //
-    //   if (!store.selectedDoggo()) {
-    //     return store.doggos();
-    //   }
-    //
-    //   return store
-    //     .doggos()
-    //     .filter((doggo) => doggo.id !== store.selectedDoggo().id);
-    // }),
-    // getUserSub: computed(() => authStore.userSub()),
   })),
   withMethods((store, expensesApiService = inject(ExpensesApiService)) => ({
     loadAllExpenses: rxMethod<void>(

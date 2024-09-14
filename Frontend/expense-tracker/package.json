@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve expense-tracker"
+    "start": "nx serve expense-tracker",
+    "graph": "nx graph"
   },
   "private": true,
   "dependencies": {
