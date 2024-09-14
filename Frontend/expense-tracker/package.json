@@ -4,7 +4,10 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve expense-tracker",
-    "graph": "nx graph"
+    "lint:all": "nx run-many -t lint",
+    "lint:affected": "nx affected -t lint",
+    "graph": "nx graph",
+    "graph:affected": "nx graph --affected"
   },
   "private": true,
   "dependencies": {
