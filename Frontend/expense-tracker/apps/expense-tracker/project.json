@@ -4,7 +4,10 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/expense-tracker/src",
-  "tags": [],
+  "tags": [
+    "type:app",
+    "scope:expense-tracker-app"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
