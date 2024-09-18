@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject, input, LOCALE_ID } from '@angular/core';
+import { Directive, effect, ElementRef, inject, input, LOCALE_ID } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { ExpensesModel } from '@expense-tracker/expenses/domain';
 
@@ -14,6 +14,11 @@ export class ExpensesChartDirective {
   private readonly el = inject(ElementRef);
   private readonly localeId = inject<string>(LOCALE_ID);
   private chart: Chart | null = null;
+
+  private updateChart = effect(() => {
+    this.destroyChart();
+    this.createChart(this.monthlyExpenses());
+  });
 
   private destroyChart() {
     if (this.chart) {
