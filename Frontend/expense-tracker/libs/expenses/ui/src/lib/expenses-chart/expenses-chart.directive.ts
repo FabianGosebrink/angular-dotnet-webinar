@@ -53,6 +53,7 @@ export class ExpensesChartDirective {
           {
             data,
             borderWidth: 1,
+            label: 'Amount',
           },
         ],
       },
