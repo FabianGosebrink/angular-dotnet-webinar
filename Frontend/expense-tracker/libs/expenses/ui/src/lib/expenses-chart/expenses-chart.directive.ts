@@ -12,7 +12,6 @@ export class ExpensesChartDirective {
   monthlyExpenses = input<ExpensesModel[]>([]);
 
   private readonly el = inject(ElementRef);
-  private readonly localeId = inject<string>(LOCALE_ID);
   private chart: Chart | null = null;
 
   private updateChart = effect(() => {
