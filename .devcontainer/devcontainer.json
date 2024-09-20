@@ -19,5 +19,7 @@
         "nrwl.angular-console"
 			]
 		}
-	}
+	},
+
+  "postCreateCommand": "bash .devcontainer/postinstall.sh"
 }

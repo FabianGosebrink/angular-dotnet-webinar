@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Install Backend",
+            "type": "shell",
+            "command": ""
+        }
+        {
+            "label": "Run Backend",
+            "type": "shell",
+            "options": {
+                "cwd": "Frontend/expense-tracker"
+            },
+            "command": "dotnet run -c Release Backend/ExpenseTracker.sln"
+        },
+        {
+            "label": "Run Frontend",
+            "type": "shell",
+            "options": {
+                "cwd": "Frontend/expense-tracker"
+            },
+            "command": "nx expense-tracker:serve"
+        }
+    ]
+}
