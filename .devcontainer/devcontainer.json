@@ -1,0 +1,23 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    // NodeJS - Defaults to the latest LTS
+    "ghcr.io/devcontainers/features/node:1": {},
+    // Dotnet CLI
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "8.0"
+    }
+  },
+
+  	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csdevkit",
+        "yzhang.markdown-all-in-one",
+				"vscode-icons-team.vscode-icons",
+				"me-dutour-mathieu.vscode-github-actions",
+        "nrwl.angular-console"
+			]
+		}
+	}
+}
