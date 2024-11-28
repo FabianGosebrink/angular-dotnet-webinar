@@ -50,7 +50,8 @@ builder.Services.AddCors(o =>
 {
     o.AddPolicy("OnlyUs", builder =>
     {
-        builder.AllowAnyHeader()
+        builder
+            .AllowAnyHeader()
             .AllowAnyMethod()
             .WithOrigins("http://localhost:4200");
     });
