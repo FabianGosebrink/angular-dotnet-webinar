@@ -7,22 +7,30 @@
             "label": "Install Backend",
             "type": "shell",
             "command": ""
-        }
+        },
         {
             "label": "Run Backend",
             "type": "shell",
             "options": {
-                "cwd": "Frontend/expense-tracker"
+                "cwd": "${workspaceFolder}/Backend"
             },
-            "command": "dotnet run -c Release Backend/ExpenseTracker.sln"
+            "command": "dotnet run -c Release --project src/ExpenseTracker.csproj"
+        },
+        {
+            "label": "Install Frontend",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/Frontend/expense-tracker"
+            },
+            "command": "npm install"
         },
         {
             "label": "Run Frontend",
             "type": "shell",
             "options": {
-                "cwd": "Frontend/expense-tracker"
+                "cwd": "${workspaceFolder}/Frontend/expense-tracker"
             },
-            "command": "nx expense-tracker:serve"
+            "command": "nx serve expense-tracker"
         }
     ]
 }

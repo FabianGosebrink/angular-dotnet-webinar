@@ -21,5 +21,10 @@
 		}
 	},
 
-  "postCreateCommand": "bash .devcontainer/postinstall.sh"
+  "postCreateCommand": "bash .devcontainer/postinstall.sh",
+  "portsAttributes": {
+		"7011": {
+			"protocol": "https"
+		}
+	}
 }
