@@ -1,4 +1,4 @@
-import { Directive, effect, ElementRef, inject, input, LOCALE_ID } from '@angular/core';
+import { Directive, effect, ElementRef, inject, input } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { ExpensesModel } from '@expense-tracker/expenses/domain';
 
